@@ -1,25 +1,50 @@
 import { useState } from 'react';
 import axios from 'axios';
+import {apiLogin} from '../../api/index'
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
-  const [user, setUser] = useState({
-    username: '',
-    password: '',
-  });
+  const [user, setUser] = useState({username: '', password: ''});
+  const [erroMessage, setErroMessage] = useState({username: '', password: ''});
+  const [isDisableButton, setIsDisableButton] = useState(false);
 
+  function validateForm () {
+    if(!user.username) {
+      setErroMessage('Tên tài khoản không được để trống')
+      return false
+    }
+    if(!user.password) {
+      setErroMessage('Mật khẩu không được để trống')
+      return false
+    }
+    return true
+  }
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    //chưa validate k gọi api
+    if (!validateForm()) return;
+
+    setIsDisableButton(true)
+
     const params = {
       username: user?.username,
       password: user?.password,
     }
+
     try {
-      const res = await axios.post('http://localhost:8000/api/auth/login', params);
-      localStorage.setItem('token', res.data.token); // Lưu JWT vào localStorage
-      localStorage.setItem('role', res.data.role);
+      const res = await apiLogin(params);
+      if(res?.data.success) {
+          localStorage.setItem('token', res.data.token); // Lưu JWT vào localStorage
+          localStorage.setItem('role', res.data.role);
+        }
       } catch (error) {
-    }
+        toast.error("Đã có lỗi xảy ra")
+      }
+      finally {
+        setIsDisableButton(false);
+      }
   };
 
   const onchangeInput = (e) => {
@@ -34,7 +59,7 @@ const LoginPage = () => {
     <form onSubmit={handleLogin}>
       <input name="username" type="text" value={user?.username} onChange={onchangeInput} placeholder="Username" />
       <input name="password" type="password" value={user?.password} onChange={onchangeInput} placeholder="Password" />
-      <button type="submit">Login</button>
+      <button disabled={isDisableButton} type="submit">Login</button>
     </form>
   );
 };

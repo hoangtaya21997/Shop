@@ -4,10 +4,13 @@ import { UserProvider } from "./context/index";
 import HomePage from "./pages/Home";
 import DetailPage from "./pages/Detail";
 import LoginPage from "./pages/Login";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const isAuthenticated = localStorage.getItem('token') !== null;
-
+  const role = localStorage.getItem('role');
+  console.log(isAuthenticated)
   return (
     <UserProvider>
       <Router>
@@ -17,6 +20,7 @@ function App() {
           <Route path="/san-pham-:mn" element={<DetailPage />} />
         </Routes>
       </Router>
+      <ToastContainer/>
     </UserProvider>
   );
 }

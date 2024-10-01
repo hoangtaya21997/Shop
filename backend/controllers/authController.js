@@ -42,7 +42,7 @@ const loginUser = async (req, res) => {
     if (user && (await user.matchPassword(password))) {
       res.json({
         success: true, 
-        code: 500,
+        code: 200,
         _id: user._id,
         username: user.username,
         role: user.role,
