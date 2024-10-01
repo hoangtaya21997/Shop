@@ -6,6 +6,8 @@ import DetailPage from "./pages/Detail";
 import LoginPage from "./pages/Login";
 
 function App() {
+  const isAuthenticated = localStorage.getItem('token') !== null;
+
   return (
     <UserProvider>
       <Router>

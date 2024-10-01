@@ -1,37 +1,59 @@
+const User = require('../models/user');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const User = require('../models/userMordel');
+
+// Tạo token JWT
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+};
 
 // Đăng ký
-exports.register = async (req, res) => {
+const registerUser = async (req, res) => {
   const { username, password, role } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, password: hashedPassword, role });
-    await newUser.save();
+    const userExists = await User.findOne({ username });
+    if (userExists) {
+      return res.status(200).json({success: false, message: 'User already exists'});
+    }
 
-    res.status(201).json({ message: 'User created' });
+    const user = await User.create({ username, password, role });
+    if (user) {
+      res.status(201).json({
+        success: true, 
+        _id: user._id,
+        username: user.username,
+        role: user.role,
+        token: generateToken(user._id),
+      });
+    } else {
+      res.status(200).json({success: false,  message: 'Invalid user data' });
+    }
   } catch (error) {
-    res.status(500).json({ message: 'Error registering user' });
+    res.status(500).json({success: false,  message: 'Server error', error });
   }
 };
 
 // Đăng nhập
-exports.login = async (req, res) => {
+const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
   try {
     const user = await User.findOne({ username });
-    if (!user) return res.status(404).json({ message: 'User not found 123123' });
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
-
-    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    res.json({ token });
+    if (user && (await user.matchPassword(password))) {
+      res.json({
+        success: true, 
+        code: 500,
+        _id: user._id,
+        username: user.username,
+        role: user.role,
+        token: generateToken(user._id),
+      });
+    } else {
+      res.status(200).json({success: false, code: 401, message: 'Invalid username or password' });
+    }
   } catch (error) {
-    res.status(500).json({ message: 'Error logging in' });
+    res.status(200).json({success: false, code: 500,  message: 'Server error', error });
   }
 };
+
+module.exports = { registerUser, loginUser };
