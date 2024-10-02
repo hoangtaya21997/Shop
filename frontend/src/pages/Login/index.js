@@ -73,6 +73,7 @@ const LoginPage = () => {
           <form className='form' onSubmit={handleLogin}>
             <div className='login-input'>
               <Input
+                className='check-error'
                 errorMessage={errorMessage?.username}
                 name="username"
                 type="text"
@@ -84,6 +85,7 @@ const LoginPage = () => {
             <div className='login-input'>
               <Input
                 errorMessage={errorMessage?.password}
+                className='check-error'
                 name="password"
                 type="password"
                 value={user?.password}
