@@ -1,0 +1,28 @@
+.input-wrap {
+    width: inherit;
+    .input {
+        border: 1px solid #71b4d1;
+        background: #fff;
+        color: #000;
+        border-radius: 4px;
+        padding: 12px 25px;
+        outline: none;
+        width: calc(100% - 50px);
+        font-size: 16px;
+        &:focus  {
+            border: 1px solid #71b4d1;
+        }
+    }
+    .input {
+        &.error {
+            border-color: #f26a64;
+        }
+    }
+    .error-message {
+        width: 100%;
+        color: #f26a64;
+        font-size: 12px;
+        text-align: left;
+        height: 25px;
+    }
+}

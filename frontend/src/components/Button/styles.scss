@@ -1,0 +1,17 @@
+.button-wrap {
+    .button {
+        cursor: pointer;
+        width: 100%;
+        background: #71b4d1;
+        color: #fff;
+        border-radius: 4px;
+        padding: 10px 25px;
+        font-weight: bold;
+        font-size: 16px;
+        outline: none;
+        border: none;
+        &:hover {
+            background: #0b97d4;
+        }
+    }
+}

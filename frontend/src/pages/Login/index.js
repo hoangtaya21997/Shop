@@ -1,20 +1,28 @@
+import './styles.scss'
 import { useState } from 'react';
-import axios from 'axios';
 import {apiLogin} from '../../api/index'
 import { toast } from 'react-toastify';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
 
 const LoginPage = () => {
   const [user, setUser] = useState({username: '', password: ''});
-  const [erroMessage, setErroMessage] = useState({username: '', password: ''});
+  const [errorMessage, setErrorMessage] = useState({username: '', password: ''});
   const [isDisableButton, setIsDisableButton] = useState(false);
 
   function validateForm () {
     if(!user.username) {
-      setErroMessage('Tên tài khoản không được để trống')
+      setErrorMessage((prev)=> ({
+        ...prev,
+        username: 'Tên tài khoản không được để trống'
+      }))
       return false
     }
     if(!user.password) {
-      setErroMessage('Mật khẩu không được để trống')
+      setErrorMessage((prev)=> ({
+        ...prev,
+        password: 'Mật khẩu không được để trống'
+      }))
       return false
     }
     return true
@@ -56,11 +64,38 @@ const LoginPage = () => {
   }
 
   return (
-    <form onSubmit={handleLogin}>
-      <input name="username" type="text" value={user?.username} onChange={onchangeInput} placeholder="Username" />
-      <input name="password" type="password" value={user?.password} onChange={onchangeInput} placeholder="Password" />
-      <button disabled={isDisableButton} type="submit">Login</button>
-    </form>
+    <div className='login'>
+      <div className='login-form' >
+        <div className='login-form-content'>
+          <div className='login-logo'>CMS</div>
+          <div className='break-line'/>
+          <div className='text-message'>Chào bạn<br/> Mời bạn đăng nhập vào hệ thống</div>
+          <form className='form' onSubmit={handleLogin}>
+            <div className='login-input'>
+              <Input
+                errorMessage={errorMessage?.username}
+                name="username"
+                type="text"
+                value={user?.username}
+                onChange={onchangeInput}
+                placeholder="Nhập Tên tài khoản"
+              />
+            </div>
+            <div className='login-input'>
+              <Input
+                errorMessage={errorMessage?.password}
+                name="password"
+                type="password"
+                value={user?.password}
+                onChange={onchangeInput}
+                placeholder="Nhập mật khẩu"
+              />
+            </div>
+            <Button disabled={isDisableButton} text='Đăng nhập' type="submit" />
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 
