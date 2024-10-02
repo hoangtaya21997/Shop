@@ -13,5 +13,16 @@
         &:hover {
             background: #0b97d4;
         }
+        &.btn-light {
+            border: 1px solid #0b97d4;
+            padding: 6px 16px;
+            background: #fff;
+            color: #000;
+            font-weight: 400;
+            width: fit-content;
+            &:hover {
+                background: #f8f8f8;
+            }
+        }
     }
 }

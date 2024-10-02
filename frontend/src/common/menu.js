@@ -1,15 +1,18 @@
-import IconListProduct from '../assets/svg/product.svg'
-import SettingProduct from '../assets/svg/setting.svg'
+import { ReactComponent as IconListProduct } from '../assets/svg/product.svg';
+import { ReactComponent as SettingProduct } from '../assets/svg/setting.svg';
+
 const menu = [
     {
       name: 'Danh sách sản phẩm',
+      active: 'list-pr',
       link: '',
-      icon: IconListProduct
+      icon: <IconListProduct/>
     },
     {
       name: 'Quản lý sản phẩm',
       link: '',
-      icon: SettingProduct
+      active: 'edit-pr',
+      icon: <SettingProduct/>
     },
 ]
 

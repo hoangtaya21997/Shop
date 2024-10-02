@@ -17,6 +17,12 @@
         &.error {
             border-color: #f26a64;
         }
+        &.search {
+            background-image: url('../../assets//svg/search.svg');
+            background-repeat: no-repeat;
+            background-position: 6px center;
+            padding: 6px 25px 6px 30px ;
+        }
     }
     .error-message {
         width: 100%;

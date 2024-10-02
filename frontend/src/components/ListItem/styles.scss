@@ -1,0 +1,12 @@
+.list-content {
+    // flex: 1;
+    .filter-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        .filter {
+            display: flex;
+            align-items: center;
+        }
+    }
+}

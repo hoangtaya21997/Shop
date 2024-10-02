@@ -1,0 +1,80 @@
+.header {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 6px;
+    display: flex;
+    padding: 0 25px;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
+    .header-logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #2ea2c7;
+        cursor: pointer;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover {
+            opacity: .8;
+        }
+    }
+    .user {
+        display: flex;
+        justify-items: flex-end;
+        gap: 8px;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+        padding: 12px 0;
+        &:hover {
+            .user-action {
+                display: flex;
+            }
+        }
+        .user-logo {
+            width: 24px;
+        }
+        .user-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #2ea2c7;
+            text-transform: uppercase;
+        }
+        .user-action {
+            display: none;
+            position: absolute;
+            top: 50%;
+            width: 120%;
+            padding: 6px;
+            align-items: center;
+            background: #ddd;
+            border-radius: 4px;
+            &:before {
+                border-bottom: 7px solid #ddd;
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                right: 49px;
+                display: block;
+                font-size: 0;
+                height: 0;
+                top: -17px;
+                line-height: 0;
+                position: absolute;
+                width: 0;
+                content: "";
+                border-top: 10px solid transparent;
+            }
+            .user-action-item {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                font-size: 14px;
+                cursor: pointer;
+                &:hover {
+                    color: #2ea2c7;
+                }
+            }
+        }
+    }
+}
