@@ -8,8 +8,8 @@
         border-radius: 4px;
         padding: 12px 25px;
         outline: none;
-        width: calc(100% - 50px);
-        font-size: 16px;
+        width: calc(100% - 52px);
+        font-size: 14px;
         &:focus  {
             border: 1px solid #71b4d1;
         }
@@ -21,14 +21,21 @@
         &.check-error {
             margin-bottom: 25px;
         }
+        &.input-grey {
+            border-color: #e0e0e0;
+            padding: 12px 12px;
+            width: calc(100% - 26px);
+        }
         &.search {
             background-image: url('../../assets//svg/search.svg');
             background-repeat: no-repeat;
             background-position: 6px center;
             padding: 6px 25px 6px 30px ;
+            width: calc(100% - (25px + 30px));
         }
     }
     .error-message {
+        pointer-events: none;
         position: absolute;
         bottom: 0;
         width: 100%;

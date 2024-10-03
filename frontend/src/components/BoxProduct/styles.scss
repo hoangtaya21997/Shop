@@ -1,0 +1,40 @@
+.table-item {
+    .table-pd {
+        position: relative;
+    }
+    .options {
+        min-width: 200px;
+        background: #fff;
+        box-shadow: 0px 0px 4px 0px rgba(51, 51, 51, 0.16);
+        border-radius: 4px;
+        position: absolute;
+        right: 0;
+        z-index: 2;
+        button {
+            width: 100%;
+            padding: 8px 12px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #858585;
+            border: none;
+            cursor: pointer;
+            &:hover {
+                background: #f8f8f8;
+                color: #333;
+            }
+            .icon-edit {
+                width: 20px;
+                height: 20px;
+                background: url('../../assets/svg/icon-edit-black.svg') no-repeat 0 0 / contain;
+            }
+            .icon-delete {
+                width: 17px;
+                height: 17px;
+                background: url('../../assets/svg/icon-delete.svg') no-repeat 0 0 / contain;
+                padding-right: 3px;
+            }
+        }
+    }
+}
