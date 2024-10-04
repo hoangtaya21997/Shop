@@ -25,7 +25,6 @@ const getProducts = async (req, res) => {
 // Thêm sản phẩm mới
 const addProduct = async (req, res) => {
   const { name, quantity, notes, price, imageUrl } = req.body;
-  console.log(name, quantity, notes, price, imageUrl)
   if (!name || !price || !imageUrl) {
     return res.status(400).json({ success: false, message: 'Please provide all required fields' });
   }

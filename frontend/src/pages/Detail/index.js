@@ -4,14 +4,12 @@ import Header from '../../components/Header'
 import { useParams } from 'react-router-dom';
 import { apiGetProductById } from '../../api/product';
 import { toast } from "react-toastify";
-import {formatDate} from "../../common/fomatDate";
+import {formatDate, fomatPrice} from "../../common/fomat";
 
 function DetailPage() {
   const [product, setProduct] = useState({})
   const { id } = useParams();
   useEffect(() => {
-    console.log(id)
-
     const fetchProduct = async () => {
       try {
         const { data } = await apiGetProductById(id);
@@ -41,7 +39,7 @@ function DetailPage() {
                 <tr>
                   <th className="table-pd">Ảnh đại diện</th>
                   <th className="table-pd text-left">Tên sản phẩm</th>
-                  <th className="table-pd text-left">Đơn giá</th>
+                  <th className="table-pd ">Đơn giá</th>
                   <th className="table-pd">Số lượng</th>
                   <th className="table-pd">Ngày tạo</th>
                   <th className="table-pd">Mô tả sản phẩm</th>
@@ -55,8 +53,8 @@ function DetailPage() {
                   <td className="table-pd text-left">
                     <p className="item-name" >{product?.name}</p>
                   </td>
-                  <td className="table-pd text-left">
-                    <p className="item-name">{product?.price}</p>
+                  <td className="table-pd ">
+                    <p className="item-name">{fomatPrice(product?.price)}</p>
                   </td>
                   <td className="table-pd">
                     <p className="item-name">{product?.quantity}</p>

@@ -21,4 +21,4 @@ const menuDefault = [
 
 const menu = menuDefault?.filter(value => value?.role == userRole || value?.role === 'all');
 
-export default menu
+export default menuDefault

@@ -2,19 +2,19 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 const DOMAIN_API = 'http://localhost:8000' //.env
 
-
-const token = Cookies.get('token');
-
-const headers = {
-    Authorization: `Bearer ${token}`,
+const getAuthHeaders = () => {
+    const token = Cookies.get('token');
+    return {
+        Authorization: `Bearer ${token}`,
+    };
 };
 
-const apiGetListProducts = (params) => axios.get(`${DOMAIN_API}/api/products`, { params, headers });
+const apiGetListProducts = (params) => axios.get(`${DOMAIN_API}/api/products`, { params, headers: getAuthHeaders() });
 
-const apiUpdateProduct = (productId, params) => axios.put(`${DOMAIN_API}/api/products/${productId}`, params, { headers });
+const apiUpdateProduct = (productId, params) => axios.put(`${DOMAIN_API}/api/products/${productId}`, params, { headers: getAuthHeaders() });
 
-const apiCreateProduct = (params) => axios.post(`${DOMAIN_API}/api/products`, params, { headers });
+const apiCreateProduct = (params) => axios.post(`${DOMAIN_API}/api/products`, params, { headers: getAuthHeaders() });
 
-const apiGetProductById = (productId) => axios.get(`${DOMAIN_API}/api/products/${productId}`, { headers });
+const apiGetProductById = (productId) => axios.get(`${DOMAIN_API}/api/products/${productId}`, { headers: getAuthHeaders() });
 
 export { apiGetListProducts, apiUpdateProduct, apiCreateProduct, apiGetProductById };

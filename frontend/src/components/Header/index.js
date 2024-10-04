@@ -19,11 +19,10 @@ const Header = ({ }) => {
     } catch (error) {
       toast.error("Đã có lỗi xảy ra")
     }
-
   }
   return (
     <heder className="header">
-      <div className='header-logo' >
+      <div className='header-logo' onClick={()=> {navigate('/')}}>
         <ImgLogo />
       </div>
       <div className='user'>

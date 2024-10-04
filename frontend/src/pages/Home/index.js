@@ -2,7 +2,7 @@ import { React } from 'react';
 import Header from '../../components/Header'
 import Sidebar from '../../components/Sidebar'
 import ListItem from '../../components/ListItem'
-
+import Cookies from 'js-cookie';
 function HomePage() {
   return (
     <div className="height-container">

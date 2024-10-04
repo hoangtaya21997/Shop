@@ -1,4 +1,4 @@
-export const formatDate = (isoString) => {
+const formatDate = (isoString) => {
     if(!isoString) {
         return "-"
     }
@@ -10,3 +10,10 @@ export const formatDate = (isoString) => {
     const year = date.getUTCFullYear();
     return `${hours}h:${minutes.toString().padStart(2, '0')} ${day}/${month}/${year}`;
 };
+
+const fomatPrice = (numberString) => {
+    if(!numberString) return '-'
+    return Number(numberString).toLocaleString();
+};
+
+export {formatDate, fomatPrice}

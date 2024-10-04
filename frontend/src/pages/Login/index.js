@@ -46,10 +46,17 @@ const LoginPage = () => {
 
     try {
       const res = await apiLogin(params);
-      if(res?.data.success) {
-          Cookies.set('token', res.data.token, { expires: 1 });
-          Cookies.set('role', res.data.role, { expires: 1 });
-          navigate('/');
+        if(res?.data.success) {
+          const tokenSet = Cookies.set('token', res.data.token, { expires: 1 });
+          const roleSet = Cookies.set('role', res.data.role, { expires: 1 });
+          if (tokenSet && roleSet) {
+            navigate('/'); 
+          }
+        } else {
+          setErrorMessage((prev)=> ({
+            ...prev,
+            username: 'Nhập sai thông tin tài khoản hoặc mật khẩu'
+          }))
         }
       } catch (error) {
         toast.error("Đã có lỗi xảy ra")

@@ -7,6 +7,7 @@ const ProtectedRoute = ({ children, requiredRole }) => {
   const location = useLocation();
   const token = Cookies.get('token'); // Lấy token từ cookie
   const userRole = Cookies.get('role'); // Lấy role từ cookie
+
   const loginPage = location.pathname == "/login"
   
   //nếu đăng nhâp, và vào trang login

@@ -3,7 +3,6 @@ import React, { useCallback, useState, useEffect } from "react";
 import { apiGetListProducts } from '../../api/product';
 import { toast } from "react-toastify";
 import ModalEditProduct from"../ModalEditProduct";
-
 const Input = React.lazy(() => import("../Input"));
 const Button = React.lazy(() => import("../Button"));
 const Pagination = React.lazy(() => import("../Pagination"));
