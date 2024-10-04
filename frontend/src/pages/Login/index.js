@@ -4,11 +4,14 @@ import {apiLogin} from '../../api/index'
 import { toast } from 'react-toastify';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [user, setUser] = useState({username: '', password: ''});
   const [errorMessage, setErrorMessage] = useState({username: '', password: ''});
   const [isDisableButton, setIsDisableButton] = useState(false);
+  const navigate = useNavigate();
 
   function validateForm () {
     if(!user.username) {
@@ -44,8 +47,9 @@ const LoginPage = () => {
     try {
       const res = await apiLogin(params);
       if(res?.data.success) {
-          localStorage.setItem('token', res.data.token); // Lưu JWT vào localStorage
-          localStorage.setItem('role', res.data.role);
+          Cookies.set('token', res.data.token, { expires: 1 });
+          Cookies.set('role', res.data.role, { expires: 1 });
+          navigate('/');
         }
       } catch (error) {
         toast.error("Đã có lỗi xảy ra")

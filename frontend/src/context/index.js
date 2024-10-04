@@ -1,15 +1,15 @@
 import React, { createContext, useState } from 'react';
 
-const UserContext = createContext();
+const ProductContext = createContext();
 
-const UserProvider = ({ children }) => {
+const ProductProvider = ({ children }) => {
   const [currentItem, setCurrentItem] = useState(null);
   
   return (
-    <UserContext.Provider value={{ currentItem, setCurrentItem }}>
+    <ProductContext.Provider value={{ currentItem, setCurrentItem }}>
       {children}
-    </UserContext.Provider>
+    </ProductContext.Provider>
   );
 };
 
-export { UserContext, UserProvider };
+export { ProductContext, ProductProvider };

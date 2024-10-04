@@ -1,16 +1,100 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useState, useContext } from 'react';
 import Input from '../Input';
 import Button from '../Button';
+import { ProductContext } from '../../context';
 import './styles.scss';
+import { apiUpdateProduct, apiCreateProduct } from '../../api/product';
 import { ReactComponent as IconClose } from '../../assets/svg/icon-close.svg';
+import { toast } from 'react-toastify';
 
-const ModalEditProduct = ({handleClose}) => {
+const ModalEditProduct = ({handleClose, handleUpdateItem}) => {
+    const initial = {
+        id: '',
+        imageUrl: '',
+        name: '',
+        notes:'',
+        price: '',
+        quantity: 0,
+    }
+    const { currentItem, setCurrentItem } = useContext(ProductContext);
+    const [product, setProduct] = useState(currentItem || initial)
+    const [isDisableButton, setIsDisableButton] = useState(false)
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setProduct((prev) => ({
+            ...prev,
+            [name]: value 
+        }));
+    }
+
+    const handleSubmit  = async () => {
+        setIsDisableButton(true)
+
+        const params = { 
+            name: product.name, 
+            price: product.price, 
+            quantity: product.quantity, 
+            notes: product.notes, 
+            imageUrl : product.imageUrl,
+        };
+
+        if(product.id) {
+            updateProduct(params)
+        } else {
+            createProduct(params)
+        }
+        
+    }
+
+    const updateProduct = async(params) => {
+        try {
+            const response = await apiUpdateProduct(product.id, params); 
+            if (response?.data.success) {
+                toast.success('Sản phẩm đã được cập nhật thành công!');
+                setCurrentItem(initial)
+                handleUpdateItem(response?.data?.data)
+            } else {
+              toast.error('Đã có lỗi xảy ra khi cập nhật sản phẩm');
+            }
+        } catch (error) {
+            toast.error('Đã có lỗi xảy ra khi cập nhật sản phẩm');
+        }
+        finally {
+            setIsDisableButton(false);
+        }
+    }
+
+    const createProduct = async(params) => {
+        try {
+            const response = await apiCreateProduct(params); 
+            if (response?.data.success) {
+                toast.success('Thêm sản phẩm thành công!');
+                setCurrentItem(initial)
+                handleUpdateItem(response?.data?.data)
+            } else {
+              toast.error('Đã có lỗi xảy ra khi thêm mới sản phẩm');
+            }
+        } catch (error) {
+            toast.error('Đã có lỗi xảy ra khi thêm mới sản phẩm');
+        }
+        finally {
+            setIsDisableButton(false);
+        }
+    }
+
+    const handleCloseModal = () => {
+        //resetState
+        setCurrentItem(initial)
+        handleClose()
+    }
+
+
     return (
         <div className='modal-wrap'>
             <div className='modal-content-wrap'>
                 <div className='modal-top'>
-                    <div className='modal-label'>Tạo sản phẩm mới</div>
-                    <div className='modal-close' onClick={handleClose}>
+                    <div className='modal-label'>{product?.id ? 'Cập nhật sản phẩm' : 'Tạo sản phẩm mới'}</div>
+                    <div className='modal-close' onClick={handleCloseModal}>
                         <IconClose />
                     </div>
                 </div>
@@ -21,29 +105,46 @@ const ModalEditProduct = ({handleClose}) => {
                             type="text"
                             className="input-grey"
                             placeholder=""
+                            name='name'
+                            onChange={handleChange}
+                            value={product?.name}
                         />
                     </div>
                     <div className='item'>
                         <label className='label'>Giá</label>
                         <Input
+                            onChange={handleChange}
                             type="number"
                             className="input-grey"
                             placeholder=""
+                            name="price"
+                            value={product?.price}
+                        />
+                    </div>
+                    <div className='item'>
+                        <label className='label'>Đường dẫn ảnh</label>
+                        <Input
+                            type="text"
+                            className="input-grey"
+                            placeholder=""
+                            name="imageUrl"
+                            onChange={handleChange}
+                            value={product?.imageUrl}
                         />
                     </div>
                     <div className='item'>
                         <label className='label'>Mô tả</label>
                         <div>
-                            <textarea id="w3review" name="w3review" rows="4" cols="50"/>
+                            <textarea onChange={handleChange} value={product?.notes} name="notes" id="w3review"  rows="4" cols="50"/>
                         </div>
                     </div>
                 </div>
                 <div className='modal-bottom'>
                     <div className='btn-close'>
-                        <Button className='btn-light' text="Đóng" onClick={handleClose} />
+                        <Button className='btn-light' text="Đóng" onClick={handleCloseModal} />
                     </div>
                     <div className='btn-submit'>
-                        <Button className='btn-info' text="Xong" onClick={handleClose}/>
+                        <Button isDisableButton={isDisableButton} className='btn-info' text="Xong" onClick={handleSubmit}/>
                     </div>
                 </div>
             </div>
