@@ -3,10 +3,12 @@
 In the project directory, you can run:
 
 cd backend
-# npm start
+npm i
+npm start
 
 cd frontend 
-# npm start
+npm i
+npm start
 
 test 
 npm test
