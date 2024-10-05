@@ -3,15 +3,15 @@
 In the project directory, you can run:
 
 cd backend
-npm i
-npm start
++ npm i
++npm start
 
 cd frontend 
-npm i
-npm start
++ npm i
++ npm start
 
 test 
-npm test
++ npm test
 
 accout: admin
  + username: admin 
