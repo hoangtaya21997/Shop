@@ -10,7 +10,7 @@ ul, li {
   margin: 0;
 }
 .height-container {
-  height: calc(100%);
+  min-height: 100%;
 }
 
 .content {

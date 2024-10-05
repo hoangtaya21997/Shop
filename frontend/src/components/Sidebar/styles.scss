@@ -2,6 +2,9 @@
     width: 300px;
     border: 1px solid #cad8e5;
     height: 100%;
+    height: calc(100vh - 51px);
+    position: sticky;
+    top: 48px;
     .title {
         padding: 25px 16px;
         color: #2ea2c7;
