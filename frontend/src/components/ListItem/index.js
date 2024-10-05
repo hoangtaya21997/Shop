@@ -1,6 +1,6 @@
 import "./styles.scss";
 import React, { useCallback, useState, useEffect, Suspense, startTransition  } from "react";
-import { apiGetListProducts } from '../../api/product';
+import { apiDeleteProduct, apiGetListProducts } from '../../api/product';
 import { toast } from "react-toastify";
 import ModalEditProduct from"../ModalEditProduct";
 const Input = React.lazy(() => import("../Input"));
@@ -84,6 +84,25 @@ const ListItem = ({rule}) => {
     setModalEdit(false)
   }
 
+  const handleRemoveProduct = useCallback(async (product) => {
+
+    if(!product.id) {
+      toast.error('Không có thấy sản phẩm này')
+    }
+    try {
+      const { data } = await apiDeleteProduct(product?.id);
+      if (data.success) {
+        const updatedItems = listItems.filter(item => item?.id !== product?.id);
+        setListItems(updatedItems); 
+        toast.success('Xoá sản phẩm thành công')
+      } else {
+        toast.error('Đã có lỗi xảy ra khi lấy dữ liệu sản phẩm');
+      }
+    } catch {
+      toast.error('Đã có lỗi xảy ra khi lấy dữ liệu sản phẩm');
+    }
+  },[listItems])
+
   return (
     <div className="list-content">
       <div className="title">Danh sách sản phẩm</div>
@@ -101,7 +120,7 @@ const ListItem = ({rule}) => {
             </thead>
             <tbody>
               {listItems.map((item, key) => (
-                <BoxProduct key={key} data={item} handleOpenModalEdit={toggleModal} rule={rule}/>
+                <BoxProduct key={key} data={item} handleOpenModalEdit={toggleModal} rule={rule} handleRemoveProduct={handleRemoveProduct}/>
               ))}
             </tbody>
           </table>

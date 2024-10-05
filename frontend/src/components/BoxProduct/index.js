@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import ClickOutside from "../ClickOutside";
 import {fomatPrice} from "../../common/fomat";
 
-const BoxProduct = React.memo(({handleOpenModalEdit, data, rule}) => {
+const BoxProduct = React.memo(({handleOpenModalEdit, handleRemoveProduct, data, rule}) => {
   const navigate = useNavigate();
   const { setCurrentItem } = useContext(ProductContext);
   const [isAction, setIsAction] = useState(false)
@@ -45,7 +45,7 @@ const BoxProduct = React.memo(({handleOpenModalEdit, data, rule}) => {
                   </button>
                   <button type='button'>
                       <i className='icon icon-delete'></i>
-                      <span className='text-[#D84842]'>Xoá</span>
+                      <span className='text-[#D84842]' onClick={()=> {handleRemoveProduct(data); setIsAction(false)}} >Xoá</span>
                   </button>
               </div>}
             </ClickOutside>

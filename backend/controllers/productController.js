@@ -72,14 +72,13 @@ const updateProduct = async (req, res) => {
 // Xóa sản phẩm
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
-
   try {
-    const product = await Product.findById(id);
+    const product = await Product.findOne({ id });
     if (!product) {
       return res.status(404).json({ success: false, message: 'Product not found' });
     }
-
-    await Product.findByIdAndDelete(id);
+    // Xóa sản phẩm
+    await Product.findOneAndDelete({ id });
     res.json({ success: true, message: 'Product deleted' });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error', error });
@@ -122,7 +121,7 @@ const searchProducts = async (req, res) => {
       data: products,
       totalItems: totalProducts,
     });
-    
+
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error', error });
   }

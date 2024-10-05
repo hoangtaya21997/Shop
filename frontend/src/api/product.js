@@ -15,6 +15,8 @@ const apiCreateProduct = (params) => axios.post(`${DOMAIN_API}/api/products`, pa
 
 const apiGetProductById = (productId) => axios.get(`${DOMAIN_API}/api/products/${productId}`, { headers: getAuthHeaders() });
 
+const apiDeleteProduct = (productId) => axios.delete(`${DOMAIN_API}/api/products/${productId}`, { headers: getAuthHeaders()});
+
 const apiGetListProducts = (params) => axios.get(`${DOMAIN_API}/api/products/list`,{params, headers: getAuthHeaders()});
 
-export { apiUpdateProduct, apiCreateProduct, apiGetProductById , apiGetListProducts};
+export { apiUpdateProduct, apiCreateProduct, apiGetProductById , apiGetListProducts, apiDeleteProduct};
