@@ -58,8 +58,14 @@
             &.text-left {
                 text-align: left;
             }
+            .item-name {
+                width: fit-content;
+            }
             .pointer {
                 cursor: pointer;
+                &:hover {
+                    color: #2ea2c7;
+                }
             }
         }
         img {

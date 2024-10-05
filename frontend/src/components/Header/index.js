@@ -23,7 +23,7 @@ const Header = ({ }) => {
     }
   }
   return (
-    <heder className="header">
+    <header className="header">
       <div className='header-logo' onClick={()=> {navigate('/')}}>
         <ImgLogo />
       </div>
@@ -37,7 +37,7 @@ const Header = ({ }) => {
           </li>
         </ul>
       </div>
-    </heder>
+    </header>
   );
 }
 
