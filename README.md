@@ -4,7 +4,7 @@ In the project directory, you can run:
 
 cd backend
 + npm i
-+npm start
++ npm start
 
 cd frontend 
 + npm i
