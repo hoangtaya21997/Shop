@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { React, useEffect, useState, useMemo } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Header from '../../components/Header'
 import { useParams } from 'react-router-dom';
@@ -25,6 +25,10 @@ function DetailPage() {
     fetchProduct();
     
   }, [])
+
+  const formattedDate = useMemo(() => formatDate(product?.createdAt), [product?.createdAt]);
+
+  const formattedPrice = useMemo(() => fomatPrice(product?.price), [product?.price]);
   
   return (
     <div className="height-container">
@@ -54,13 +58,13 @@ function DetailPage() {
                     <p className="item-name" >{product?.name}</p>
                   </td>
                   <td className="table-pd ">
-                    <p className="item-name">{fomatPrice(product?.price)}</p>
+                    <p className="item-name">{formattedDate}</p>
                   </td>
                   <td className="table-pd">
                     <p className="item-name">{product?.quantity}</p>
                   </td>
                   <td className="table-pd">
-                    <p className="item-name">{formatDate(product?.createdAt)}</p>
+                    <p className="item-name">{formattedPrice}</p>
                   </td>
                   <td className="table-pd">
                     <p className="item-name">{product?.notes}</p>

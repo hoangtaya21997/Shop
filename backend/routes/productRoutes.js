@@ -1,12 +1,14 @@
 // routes/productRoutes.js
 const express = require('express');
-const { getProducts,getProductById, addProduct, updateProduct, deleteProduct } = require('../controllers/productController');
+const { getProducts,getProductById, addProduct, updateProduct, deleteProduct, searchProducts } = require('../controllers/productController');
 const { protect, admin } = require('../middleware/authMiddleware'); // Middleware để kiểm tra quyền truy cập
 
 const router = express.Router();
 
 // Lấy danh sách sản phẩm
 router.get('/', protect, getProducts);
+
+router.get('/list', protect, searchProducts);
 
 router.get('/:id', protect, getProductById);
 

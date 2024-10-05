@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
 const Header = ({ }) => {
+  const UserName = Cookies.get('username');
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
@@ -14,6 +15,7 @@ const Header = ({ }) => {
       if (res?.data.success) {
         Cookies.remove('token');
         Cookies.remove('role');
+        Cookies.remove('username');
         navigate('/login');
       }
     } catch (error) {
@@ -26,7 +28,7 @@ const Header = ({ }) => {
         <ImgLogo />
       </div>
       <div className='user'>
-        <div className='user-name'>Admin</div>
+        <div className='user-name'>{UserName}</div>
         <img className='user-logo' src='https://cnnd.mediacdn.vn/zoom/60_60/203375445438795776/2024/9/17/logo-mob-17265456816221133853893.png'></img>
         <ul className='user-action'>
           <li className='user-action-item' onClick={handleLogout} >

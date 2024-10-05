@@ -18,6 +18,7 @@ const ModalEditProduct = ({handleClose, handleUpdateItem}) => {
     }
     const { currentItem, setCurrentItem } = useContext(ProductContext);
     const [product, setProduct] = useState(currentItem || initial)
+    const [errorMessage, setErrorMessage] = useState({name: '', price: ''});
     const [isDisableButton, setIsDisableButton] = useState(false)
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,7 +28,29 @@ const ModalEditProduct = ({handleClose, handleUpdateItem}) => {
         }));
     }
 
+    function validateForm () {
+        if(!product.name) {
+          setErrorMessage((prev)=> ({
+            ...prev,
+            name: 'Tên sản phẩm không được để trống'
+          }))
+          return false
+        }
+        if(!product.price) {
+          setErrorMessage((prev)=> ({
+            ...prev,
+            price: 'Giá không được để trống'
+          }))
+          return false
+        }
+        return true
+    }
+
+      
+
     const handleSubmit  = async () => {
+        if (!validateForm()) return;
+
         setIsDisableButton(true)
 
         const params = { 
@@ -100,25 +123,27 @@ const ModalEditProduct = ({handleClose, handleUpdateItem}) => {
                 </div>
                 <div className='modal-content'>
                     <div className='item'>
-                        <label className='label'>Tên sản phẩm</label>
+                        <label className='label'>Tên sản phẩm (*)</label>
                         <Input
                             type="text"
-                            className="input-grey"
+                            className="input-grey check-error"
                             placeholder=""
                             name='name'
                             onChange={handleChange}
                             value={product?.name}
+                            errorMessage={errorMessage?.name}
                         />
                     </div>
                     <div className='item'>
-                        <label className='label'>Giá</label>
+                        <label className='label'>Giá (*)</label>
                         <Input
                             onChange={handleChange}
                             type="number"
-                            className="input-grey"
+                            className="input-grey check-error"
                             placeholder=""
                             name="price"
                             value={product?.price}
+                            errorMessage={errorMessage?.price}
                         />
                     </div>
                     <div className='item'>

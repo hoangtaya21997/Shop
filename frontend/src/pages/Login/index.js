@@ -49,7 +49,8 @@ const LoginPage = () => {
         if(res?.data.success) {
           const tokenSet = Cookies.set('token', res.data.token, { expires: 1 });
           const roleSet = Cookies.set('role', res.data.role, { expires: 1 });
-          if (tokenSet && roleSet) {
+          const UserNameSet = Cookies.set('username', res.data.username, { expires: 1 });
+          if (tokenSet && roleSet && UserNameSet) {
             navigate('/'); 
           }
         } else {

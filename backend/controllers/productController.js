@@ -24,13 +24,14 @@ const getProducts = async (req, res) => {
 
 // Thêm sản phẩm mới
 const addProduct = async (req, res) => {
-  const { name, quantity, notes, price, imageUrl } = req.body;
-  if (!name || !price || !imageUrl) {
+  const { name, quantity = 0, notes = '', price, imageUrl = '' } = req.body;
+
+  if (!name || !price) {
     return res.status(400).json({ success: false, message: 'Please provide all required fields' });
   }
 
   try {
-    const id = Math.random().toString(36).substr(2, 9); // Tạo chuỗi ngẫu nhiên 9 ký tự cho `id`
+    const id = Math.random().toString(36).substr(2, 9);
     const newProduct = new Product({
       name,
       quantity,
@@ -39,10 +40,11 @@ const addProduct = async (req, res) => {
       imageUrl,
       id,
     });
+    
     await newProduct.save();
     res.status(201).json({ success: true, data: newProduct });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Server error', error });
+    res.status(500).json({ success: false, message: 'Server error 123', error });
   }
 };
 
@@ -101,10 +103,36 @@ const getProductById = async (req, res) => {
   }
 };
 
+const searchProducts = async (req, res) => {
+  const { name, limit = 10, page = 1 } = req.query;
+
+  try {
+    const products = await Product.find({
+      name: { $regex: name, $options: 'i' }
+    })
+      .limit(Number(limit))
+      .skip((Number(page) - 1) * Number(limit));
+
+    const totalProducts = await Product.countDocuments({
+      name: { $regex: name, $options: 'i' } 
+    });
+
+    res.json({
+      success: true,
+      data: products,
+      totalItems: totalProducts,
+    });
+    
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error', error });
+  }
+};
+
 module.exports = {
   getProducts,
   addProduct,
   updateProduct,
   deleteProduct,
   getProductById,
+  searchProducts,
 };

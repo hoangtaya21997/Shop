@@ -19,7 +19,7 @@
         }
     }
     .list-items {
-        height: 100%;
+        height: calc(100% - 135px);
         background: #f8f8f8;
         padding: 16px;
     }
@@ -38,6 +38,7 @@
         .sticky {
             position: sticky;
             top: 0px;
+            border-top: 1px solid #ececec;
         }
         width: 100%;
         & th, & td {

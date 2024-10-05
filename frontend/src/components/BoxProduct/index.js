@@ -1,8 +1,9 @@
 import './styles.scss'
-import React, { useState, useRef, useCallback, useContext} from "react";
+import React, { useState, useRef, useCallback, useContext, Suspense, useMemo} from "react";
 import { ProductContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import ClickOutside from "../ClickOutside";
+import {fomatPrice} from "../../common/fomat";
 
 const BoxProduct = React.memo(({handleOpenModalEdit, data, rule}) => {
   const navigate = useNavigate();
@@ -15,17 +16,20 @@ const BoxProduct = React.memo(({handleOpenModalEdit, data, rule}) => {
       setIsAction(false)
       handleOpenModalEdit()
     },[])
+
+    const formattedPrice = useMemo(() => fomatPrice(data?.price), [data?.price]);
     
     return (
+      <Suspense fallback={<div>Loading...</div>}>
         <tr className="table-item">
           <td className="table-pd" >
             <img className='pointer' src={data?.imageUrl} alt="" onClick={()=>{navigate(`/product/${data?.id}`);}}/>
           </td>
-          <td className="table-pd text-left pointer">
-            <p className="item-name" onClick={()=>{navigate(`/product/${data?.id}`);}}>{data?.name}</p>
-          </td>
           <td className="table-pd text-left">
-            <p className="item-name">{data?.price}</p>
+            <p className="item-name pointer" onClick={()=>{navigate(`/product/${data?.id}`);}}>{data?.name}</p>
+          </td>
+          <td className="table-pd">
+            <p className="item-name">{formattedPrice}</p>
           </td>
           <td className="table-pd">
             <p className="item-name">{data?.notes}</p>
@@ -47,6 +51,7 @@ const BoxProduct = React.memo(({handleOpenModalEdit, data, rule}) => {
             </ClickOutside>
           </td>}
         </tr>
+      </Suspense>
     );
 })
 export default BoxProduct;

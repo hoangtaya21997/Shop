@@ -1,7 +1,5 @@
 const formatDate = (isoString) => {
-    if(!isoString) {
-        return "-"
-    }
+    if(!isoString) return "-"
     const date = new Date(isoString); 
     const hours = date.getUTCHours();
     const minutes = date.getUTCMinutes(); 
@@ -12,7 +10,7 @@ const formatDate = (isoString) => {
 };
 
 const fomatPrice = (numberString) => {
-    if(!numberString) return '-'
+    if(!numberString) return "-"
     return Number(numberString).toLocaleString();
 };
 

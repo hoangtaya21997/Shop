@@ -1,5 +1,5 @@
 import "./styles.scss";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, Suspense, startTransition  } from "react";
 import { apiGetListProducts } from '../../api/product';
 import { toast } from "react-toastify";
 import ModalEditProduct from"../ModalEditProduct";
@@ -12,7 +12,9 @@ const Filter = React.memo(({ pagination, handleChangePage, handleSearch, handleO
   const [inputSearch, setInputSearch] = useState(false);
 
   const handleChangeInput = (e) => {
-    setInputSearch(e?.target?.value)
+    startTransition(() => {
+      setInputSearch(e?.target?.value);
+    });
   }
 
   const handleSearchInput = (e) => {
@@ -22,31 +24,36 @@ const Filter = React.memo(({ pagination, handleChangePage, handleSearch, handleO
   }
 
   return (
-  <div className="filter-top">
-    <div className="filter">
-      <Input icon="search" onChange={handleChangeInput} onKeyDown={handleSearchInput} name="search" type="text" className="input-grey" placeholder="Tìm kiếm sản phẩm..." />
-      <Button text="Xuất excel" className="btn-light" />
-      {rule == "edit" && <Button text="Tạo sản phẩm mới" className="btn-info" onClick={handleOpenModalEdit}/>}
-    </div>
-      <Pagination {...pagination} onPageChange={handleChangePage} />
-  </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="filter-top">
+        <div className="filter">
+          <Input icon="search" onChange={handleChangeInput} onKeyDown={handleSearchInput} name="search" type="text" className="input-grey" placeholder="Tìm kiếm sản phẩm..." />
+          <Button text="Xuất excel" className="btn-light" />
+          {rule == "edit" && <Button text="Tạo sản phẩm mới" className="btn-info" onClick={handleOpenModalEdit}/>}
+        </div>
+          <Pagination {...pagination} onPageChange={handleChangePage} />
+      </div>
+  </Suspense>
 )});
 
 const ListItem = ({rule}) => {
   const [modalEdit, setModalEdit] = useState(false);
   const [listItems, setListItems] = useState([]);
-  const [pagination, setPagination] = useState({ currentPage: 1, TotalItem: 0, pageSize: 2 });
+  const [searchValue, setSearchValue] = useState('');
+  const [pagination, setPagination] = useState({ currentPage: 1, TotalItem: 0, pageSize: 10 });
 
   const toggleModal = useCallback(() => setModalEdit((prev) => !prev), []);
 
   const handleChangePage = useCallback((newPage) => setPagination((prev) => ({ ...prev, currentPage: newPage })), []);
 
-  const handleSearch = useCallback(() => toast.success('Tính năng chưa hoàn thành'), []);
+  const handleSearch = useCallback((value) => {
+    setSearchValue(value)
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await apiGetListProducts({ page: pagination.currentPage, limit: pagination.pageSize });
+        const { data } = await apiGetListProducts({name: searchValue || '', page: pagination.currentPage, limit: pagination.pageSize });
         if (data.success) {
           setListItems(data.data);
           setPagination((prev) => ({ ...prev, TotalItem: data.totalItems || 0 }));
@@ -58,7 +65,7 @@ const ListItem = ({rule}) => {
       }
     };
     fetchProducts();
-  }, [pagination.currentPage]);
+  }, [pagination.currentPage, searchValue]);
 
   const handleUpdateItem = (item) => {
     if(!item.id) {
@@ -87,7 +94,7 @@ const ListItem = ({rule}) => {
               <tr>
                 <th className="table-pd">Ảnh đại diện</th>
                 <th className="table-pd text-left">Tên sản phẩm</th>
-                <th className="table-pd text-left">Đơn giá</th>
+                <th className="table-pd ">Đơn giá</th>
                 <th className="table-pd">Mô tả sản phẩm</th>
                 {rule == "edit" && <th className="table-pd">Thao Tác</th>}
               </tr>

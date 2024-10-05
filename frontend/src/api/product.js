@@ -9,12 +9,12 @@ const getAuthHeaders = () => {
     };
 };
 
-const apiGetListProducts = (params) => axios.get(`${DOMAIN_API}/api/products`, { params, headers: getAuthHeaders() });
-
 const apiUpdateProduct = (productId, params) => axios.put(`${DOMAIN_API}/api/products/${productId}`, params, { headers: getAuthHeaders() });
 
 const apiCreateProduct = (params) => axios.post(`${DOMAIN_API}/api/products`, params, { headers: getAuthHeaders() });
 
 const apiGetProductById = (productId) => axios.get(`${DOMAIN_API}/api/products/${productId}`, { headers: getAuthHeaders() });
 
-export { apiGetListProducts, apiUpdateProduct, apiCreateProduct, apiGetProductById };
+const apiGetListProducts = (params) => axios.get(`${DOMAIN_API}/api/products/list`,{params, headers: getAuthHeaders()});
+
+export { apiUpdateProduct, apiCreateProduct, apiGetProductById , apiGetListProducts};

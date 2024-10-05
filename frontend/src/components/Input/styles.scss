@@ -16,7 +16,7 @@
     }
     .input {
         &.error {
-            border-color: #f26a64;
+            border-color: #f26a64 !important;
         }
         &.check-error {
             margin-bottom: 25px;
