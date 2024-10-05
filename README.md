@@ -3,16 +3,18 @@
 In the project directory, you can run:
 
 cd backend
-npm start
+# npm start
 
 cd frontend 
-npm start
+# npm start
 
 test 
 npm test
 
 accout: admin
-pass : 123456
+ + username: admin 
+ + password: 123456
 
 accout: user
-pass : 123456
+ + username: admin 
+ + password: 123456
